@@ -1,6 +1,6 @@
 <Ui xmlns="http://www.blizzard.com/wow/ui/">
-    <!-- Root frame is movable and clamped to screen -->
-    <Frame name="ZaesEpicMomentsFrame" parent="UIParent" movable="true" enableMouse="true" clampedToScreen="true" hidden="false">
+    <!-- Root frame starts hidden; Lua will show it when grouped or in an instance -->
+    <Frame name="ZaesEpicMomentsFrame" parent="UIParent" movable="true" enableMouse="true" clampedToScreen="true" hidden="true">
         <Size>
             <AbsDimension x="360" y="360"/>
         </Size>
@@ -25,7 +25,6 @@
 
         <Layers>
             <Layer level="ARTWORK">
-                <!-- Title text -->
                 <FontString name="$parentTitle" inherits="GameFontNormalLarge" text="Zaes Epic Moments">
                     <Anchors>
                         <Anchor point="TOPLEFT">
@@ -36,7 +35,6 @@
                     </Anchors>
                 </FontString>
 
-                <!-- Summary of biggest hit/heal/crit -->
                 <FontString name="$parentSummary" inherits="GameFontHighlightSmall" text="">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT">
@@ -47,7 +45,6 @@
                     </Anchors>
                 </FontString>
 
-                <!-- Epic Fails header -->
                 <FontString name="$parentFailsHeader" inherits="GameFontNormal" text="Epic Fails">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeTo="$parentSummary" relativePoint="BOTTOMLEFT">
@@ -58,7 +55,6 @@
                     </Anchors>
                 </FontString>
 
-                <!-- Epic Fails summary lines -->
                 <FontString name="$parentFailsSummary" inherits="GameFontHighlightSmall" text="">
                     <Anchors>
                         <Anchor point="TOPLEFT" relativeTo="$parentFailsHeader" relativePoint="BOTTOMLEFT">
@@ -71,7 +67,6 @@
             </Layer>
         </Layers>
 
-        <!-- Dragging handlers -->
         <Scripts>
             <OnMouseDown>
                 if button == "LeftButton" then
@@ -84,7 +79,6 @@
         </Scripts>
 
         <Frames>
-            <!-- Reset button -->
             <Button name="$parentResetBtn" inherits="UIPanelButtonTemplate" text="Reset">
                 <Size>
                     <AbsDimension x="60" y="20"/>
@@ -103,7 +97,6 @@
                 </Scripts>
             </Button>
 
-            <!-- Hide button -->
             <Button name="$parentHideBtn" inherits="UIPanelButtonTemplate" text="Hide">
                 <Size>
                     <AbsDimension x="60" y="20"/>
@@ -122,7 +115,6 @@
                 </Scripts>
             </Button>
 
-            <!-- Scroll frame for per-player lines -->
             <ScrollFrame name="$parentScroll" inherits="UIPanelScrollFrameTemplate">
                 <Size>
                     <AbsDimension x="330" y="190"/>
@@ -162,7 +154,10 @@
                 </Frames>
                 <Scripts>
                     <OnLoad>
-                        self:SetScrollChild(self:GetName() .. "Content")
+                        local child = _G[self:GetName() .. "Content"]
+                        if child then
+                            self:SetScrollChild(child)
+                        end
                     </OnLoad>
                 </Scripts>
             </ScrollFrame>
