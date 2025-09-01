@@ -1,0 +1,171 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui/">
+    <!-- Root frame is movable and clamped to screen -->
+    <Frame name="ZaesEpicMomentsFrame" parent="UIParent" movable="true" enableMouse="true" clampedToScreen="true" hidden="false">
+        <Size>
+            <AbsDimension x="360" y="360"/>
+        </Size>
+        <Anchors>
+            <Anchor point="CENTER" relativeTo="UIParent" relativePoint="CENTER">
+                <Offset>
+                    <AbsDimension x="0" y="0"/>
+                </Offset>
+            </Anchor>
+        </Anchors>
+        <Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+            <EdgeSize>
+                <AbsValue val="12"/>
+            </EdgeSize>
+            <TileSize>
+                <AbsValue val="32"/>
+            </TileSize>
+            <BackgroundInsets>
+                <AbsInset left="6" right="6" top="6" bottom="6"/>
+            </BackgroundInsets>
+        </Backdrop>
+
+        <Layers>
+            <Layer level="ARTWORK">
+                <!-- Title text -->
+                <FontString name="$parentTitle" inherits="GameFontNormalLarge" text="Zaes Epic Moments">
+                    <Anchors>
+                        <Anchor point="TOPLEFT">
+                            <Offset>
+                                <AbsDimension x="10" y="-10"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+                <!-- Summary of biggest hit/heal/crit -->
+                <FontString name="$parentSummary" inherits="GameFontHighlightSmall" text="">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentTitle" relativePoint="BOTTOMLEFT">
+                            <Offset>
+                                <AbsDimension x="0" y="-6"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+                <!-- Epic Fails header -->
+                <FontString name="$parentFailsHeader" inherits="GameFontNormal" text="Epic Fails">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentSummary" relativePoint="BOTTOMLEFT">
+                            <Offset>
+                                <AbsDimension x="0" y="-8"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+
+                <!-- Epic Fails summary lines -->
+                <FontString name="$parentFailsSummary" inherits="GameFontHighlightSmall" text="">
+                    <Anchors>
+                        <Anchor point="TOPLEFT" relativeTo="$parentFailsHeader" relativePoint="BOTTOMLEFT">
+                            <Offset>
+                                <AbsDimension x="0" y="-4"/>
+                            </Offset>
+                        </Anchor>
+                    </Anchors>
+                </FontString>
+            </Layer>
+        </Layers>
+
+        <!-- Dragging handlers -->
+        <Scripts>
+            <OnMouseDown>
+                if button == "LeftButton" then
+                    self:StartMoving()
+                end
+            </OnMouseDown>
+            <OnMouseUp>
+                self:StopMovingOrSizing()
+            </OnMouseUp>
+        </Scripts>
+
+        <Frames>
+            <!-- Reset button -->
+            <Button name="$parentResetBtn" inherits="UIPanelButtonTemplate" text="Reset">
+                <Size>
+                    <AbsDimension x="60" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPRIGHT">
+                        <Offset>
+                            <AbsDimension x="-10" y="-10"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        if ZaesEpicMoments_Reset then ZaesEpicMoments_Reset() end
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <!-- Hide button -->
+            <Button name="$parentHideBtn" inherits="UIPanelButtonTemplate" text="Hide">
+                <Size>
+                    <AbsDimension x="60" y="20"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="RIGHT" relativeTo="$parentResetBtn" relativePoint="LEFT">
+                        <Offset>
+                            <AbsDimension x="-6" y="0"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Scripts>
+                    <OnClick>
+                        self:GetParent():Hide()
+                    </OnClick>
+                </Scripts>
+            </Button>
+
+            <!-- Scroll frame for per-player lines -->
+            <ScrollFrame name="$parentScroll" inherits="UIPanelScrollFrameTemplate">
+                <Size>
+                    <AbsDimension x="330" y="190"/>
+                </Size>
+                <Anchors>
+                    <Anchor point="TOPLEFT" relativeTo="$parentFailsSummary" relativePoint="BOTTOMLEFT">
+                        <Offset>
+                            <AbsDimension x="0" y="-8"/>
+                        </Offset>
+                    </Anchor>
+                </Anchors>
+                <Frames>
+                    <Frame name="$parentContent">
+                        <Size>
+                            <AbsDimension x="330" y="190"/>
+                        </Size>
+                        <Anchors>
+                            <Anchor point="TOPLEFT"/>
+                        </Anchors>
+                        <Layers>
+                            <Layer level="ARTWORK">
+                                <FontString name="ZaesEpicMomentsLines" inherits="GameFontHighlightSmall" text="" justifyH="LEFT" maxLines="400">
+                                    <Size>
+                                        <AbsDimension x="320" y="190"/>
+                                    </Size>
+                                    <Anchors>
+                                        <Anchor point="TOPLEFT">
+                                            <Offset>
+                                                <AbsDimension x="0" y="0"/>
+                                            </Offset>
+                                        </Anchor>
+                                    </Anchors>
+                                </FontString>
+                            </Layer>
+                        </Layers>
+                    </Frame>
+                </Frames>
+                <Scripts>
+                    <OnLoad>
+                        self:SetScrollChild(self:GetName() .. "Content")
+                    </OnLoad>
+                </Scripts>
+            </ScrollFrame>
+        </Frames>
+    </Frame>
+</Ui>
