@@ -1,0 +1,7 @@
+## Interface: 30300
+## Title: ZaesEpicMoments
+## Notes: Shows the biggest hits/heals for your group this run, plus "Epic Fails" like overkill, overheal, interrupt whiffs, many deaths, and non-tanks getting chunked.
+## Author: ChatGPT feat. Zaes
+## Version: 0.3.1
+ZaesEpicMoments.xml
+ZaesEpicMoments.lua
